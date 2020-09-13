@@ -14,25 +14,25 @@ const styles = require('./style.js').styles;
 class SummaryGraph extends React.Component{
   render(){
     return(
-      <View style={{backgroundColor: 'red', alignSelf: 'stretch'}}>
+      <View style={{alignSelf: 'stretch'}}>
         <BarChart
           style={{}}
           data={{
-            labels: ["a", "b", "c", "d", "e", "f", "g"],
+            labels: ["2020/03", "2020/04", "2020/05", "2020/06", "2020/07", "2020/08"],
             datasets: [
               {
-                data: [4,6,2,6,1,7,2]
+                data: [45000,61500,29000,65900,14000,7000]
               }
             ]
           }}
-          width={Dimensions.get("window").width}
-          yAxisLabel="$"
-          height={220}
+          width={Dimensions.get("window").width - 50}
+          yAxisLabel="₩"
+          height={250}
           chartConfig={{
-            backgroundColor: "#e26a00",
-            backgroundGradientFrom: "#fb8c00",
-            backgroundGradientTo: "#ffa726",
-            decimalPlaces: 2, // optional, defaults to 2dp
+            backgroundColor: 'transparent',
+            backgroundGradientFrom: '#334455',
+            backgroundGradientTo: 'rgba(255, 255, 255, 0)',
+            decimalPlaces: 0, // optional, defaults to 2dp
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             style: {
@@ -44,6 +44,7 @@ class SummaryGraph extends React.Component{
               stroke: "#ffa726"
             }
           }}
+          fromZero={true}
           verticalLabelRotation={30}
         />
       </View>
@@ -62,19 +63,22 @@ export class Summary extends React.Component{
   componentDidMount(){
     const _this = this;
     setInterval(function(){
+      let nextAmount = _this.state.amount + parseInt(15 * Math.random()) * (Math.random() > 0.5 ? 1 : 2);
       _this.setState({
-        amount: _this.state.amount + parseInt(15 * Math.random()) * (Math.random() > 0.5 ? 1 : -1)
+        amount: nextAmount,
       });
     }, parseInt(400 * Math.random()));
   }
   
   render(){
+    let amountStr = util.formatCurrency(this.state.amount);
+
     return(
       <View style={styles.summaryGraphContainer}>
         <Text style={{fontSize: 15, color: '#999'}}>Transaction Sum</Text>
         <Text style={{}}>
           <Text style={{fontSize: 40, fontWeight: 'bold', color: '#FFF'}}>
-            {util.formatCurrency(this.state.amount)}
+            {amountStr}
           </Text>&nbsp;&nbsp;
           <Text style={{fontSize: 12, color: '#999'}}>KRW</Text>
         </Text>

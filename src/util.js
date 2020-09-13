@@ -1,7 +1,8 @@
-
+import("intl");
+import('intl/locale-data/jsonp/ko-KR');
 
 export function formatCurrency(amount) {
-    initIntl();
+    // initIntl();
 
     let formatter = new Intl.NumberFormat('ko-KR', {
         style: 'currency',
